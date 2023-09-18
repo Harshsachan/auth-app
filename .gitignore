@@ -3,3 +3,4 @@ node_modules
 dist/tsconfig.build.tsbuildinfo
 /dist/
 .DS_Store
+.env
