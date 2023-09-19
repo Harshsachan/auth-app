@@ -10,7 +10,7 @@ export class UsersController {
     async createUser(@Body() createUserDto:CreateUserDto){
         return await this.usersService.createUser(createUserDto);
     }
-    @Get('find-user')
+    @Get('find')
     async findOne(@Query('email') email: string):Promise<UserEntity|undefined>{
         return this.usersService.findUser(email);
     }

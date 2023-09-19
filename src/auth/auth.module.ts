@@ -11,7 +11,7 @@ import { JwtModule } from '@nestjs/jwt';
     global: true,
     //TODO: Change the secert key or transfer it in sep constants files.
     secret : "My_secert-World!right_now=To{}be_changed",
-    signOptions:{ expiresIn:'100s'},
+    signOptions:{ expiresIn:'1d'},
   }),],
   //imports: [PassportModule.register({ defaultStrategy: 'jwt' })],
   controllers: [AuthController],
