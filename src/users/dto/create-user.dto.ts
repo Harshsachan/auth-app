@@ -1,13 +1,19 @@
 import { Column } from "typeorm";
 import { Role } from "../role.enum";
+import { IsEmail,IsEnum,IsNotEmpty,Validate } from 'class-validator';
 
 export class CreateUserDto{
 @Column()
+@IsEmail()
+@IsNotEmpty()
 email :string
 
 @Column()
+@IsNotEmpty()
 password:string
 
+@IsEnum(Role)
 @Column()
-role:Role;
+roles: string=Role.Student;
+
 }

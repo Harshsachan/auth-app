@@ -1,5 +1,6 @@
-import { Column, Entity, ObjectIdColumn, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, ObjectIdColumn } from "typeorm";
 import { Role } from "../role.enum";
+import { IsEmail,IsEnum,IsNotEmpty } from 'class-validator';
 
 @Entity()
 export class UserEntity{
@@ -7,11 +8,16 @@ export class UserEntity{
     id: number;
 
     @Column()
+    @IsEmail()
+    @IsNotEmpty()
     email :string
     
     @Column()
+    @IsNotEmpty()
     password:string
 
+    @IsEnum(Role)
     @Column()
-    roles:Role;
+    @IsNotEmpty()
+    roles: string=Role.Student;
 }

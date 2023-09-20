@@ -1,10 +1,10 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable, UnauthorizedException } from '@nestjs/common';
 import { UsersService } from '../users/users.service';
 import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
-import { UserEntity } from 'src/users/entities/user.entity';
+import { UserEntity } from '../users/entities/user.entity';
 import { Repository } from 'typeorm';
-import { CreateUserDto } from 'src/users/dto/create-user.dto';
+import { CreateUserDto } from '../users/dto/create-user.dto';
 
 
 @Injectable()
@@ -16,7 +16,11 @@ export class AuthService {
     ){}
     
    async signIn(email:string,pass:string):Promise<any>{
-    const user= await this.userRepository.findOneOrFail({where:{email}});
+    const user= await this.userRepository.findOne({where:{email}});
+    if(!user){
+      throw new HttpException("User with this email Not found",HttpStatus.NOT_FOUND)
+    }
+
     console.log(user);
     
     if(user?.password !== pass){
@@ -33,6 +37,11 @@ export class AuthService {
    }
 
    async createUser(createUserDto: CreateUserDto): Promise<UserEntity> {
+    const {email}=createUserDto;
+    const userCheck = await this.userRepository.findOne({where:{email}});
+    if(userCheck){
+      throw new HttpException("User with this email already exist",HttpStatus.NOT_FOUND);
+    }
     const user = this.userRepository.create(createUserDto);
     return await this.userRepository.save(user);
   }
