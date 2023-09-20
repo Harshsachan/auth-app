@@ -4,9 +4,13 @@ import { AuthController } from './auth.controller';
 import { PassportModule } from '@nestjs/passport';
 import { UsersModule } from 'src/users/users.module';
 import { JwtModule } from '@nestjs/jwt';
+import { UserEntity } from 'src/users/entities/user.entity';
+import { TypeOrmModule } from '@nestjs/typeorm';
 
 @Module({
-  imports:[UsersModule,
+  imports:[
+    TypeOrmModule.forFeature([UserEntity]),
+    UsersModule,
     JwtModule.register({
     global: true,
     //TODO: Change the secert key or transfer it in sep constants files.
