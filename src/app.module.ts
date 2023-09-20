@@ -18,7 +18,7 @@ dotenv.config();
     entities:[UserEntity]
   }),
   AuthModule,  
-  UsersModule, AssignmentModule
+  UsersModule
   ],
   controllers: [AppController],
   providers: [AppService],
