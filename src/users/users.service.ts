@@ -9,15 +9,9 @@ import { UserEntity } from './entities/user.entity';
 
 @Injectable()
 export class UsersService {
-  constructor(
-    @InjectRepository(UserEntity)
-    private readonly userRepository: Repository<UserEntity>,
-  ) {}
-  async createUser(createUserDto: CreateUserDto): Promise<UserEntity> {
-    const user = this.userRepository.create(createUserDto);
-    return await this.userRepository.save(user);
-  }
-  async findUser(email:string): Promise<UserEntity|undefined>{
-    return this.userRepository.findOneOrFail({where:{email}});
+  constructor(@InjectRepository(UserEntity)private readonly userRepository: Repository<UserEntity>) {}
+
+  async findAll():Promise<any[]>{
+    return this.userRepository.find();
   }
 }

@@ -1,18 +1,27 @@
-import { Body, Controller, Get, Post, Query } from '@nestjs/common';
-import { CreateUserDto } from './dto/create-user.dto';
-import { UserEntity } from './entities/user.entity';
+import { Controller, Get, UseGuards } from '@nestjs/common';
+import { AuthGuard } from 'src/constants/auth.guard';
+import { Roles } from '../constants/role.decorator';
+import { Role } from './role.enum';
+import { RolesGuard } from '../constants/roles.guard';
 import { UsersService } from './users.service';
 
 @Controller('users')
 export class UsersController {
     constructor(private readonly usersService:UsersService){}
-    @Post()
-    async createUser(@Body() createUserDto:CreateUserDto){
-        return await this.usersService.createUser(createUserDto);
-    }
-    @Get('find-user')
-    async findOne(@Query('email') email: string):Promise<UserEntity|undefined>{
-        return this.usersService.findUser(email);
+
+    @UseGuards(AuthGuard,RolesGuard)
+    @Roles(Role.Admin)
+    @Get('findAll')
+    async findAll():Promise<any[]>{
+        return ["Admin access only"];
+        //return this.usersService.findAll();
     }
 
+    @UseGuards(AuthGuard,RolesGuard)
+    @Roles(Role.Teacher,Role.Admin)
+    @Get('findUser')
+    async findUser():Promise<any[]>{
+        return ["User access only"];
+        //return this.usersService.findAll();
+    }
 }

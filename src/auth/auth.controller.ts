@@ -1,7 +1,7 @@
-import { Controller, Get, Post, Request, Patch, Param, Delete, Query, HttpCode, HttpStatus, UseGuards } from '@nestjs/common';
-import { Public } from 'src/constants/public';
-import { UserEntity } from 'src/users/entities/user.entity';
-import { AuthGuard } from './auth.guard';
+import { Controller, Get, Post, Request, Query, HttpCode, HttpStatus, UseGuards, Body } from '@nestjs/common';
+import { CreateUserDto } from '../users/dto/create-user.dto';
+import { UserEntity } from '../users/entities/user.entity';
+import { AuthGuard } from '../constants/auth.guard';
 import { AuthService } from './auth.service';
 
 
@@ -16,18 +16,24 @@ export class AuthController {
         return this.authService.signIn(email,password);
     }
 
-  @UseGuards(AuthGuard)
-  @Get('profile')
-  getProfile(@Request() req) {
-    const {username  ,iat,exp,...result}=req.user
-    return result;
-  }
+    @HttpCode(HttpStatus.OK)
+    @Post('signup')
+    async createUser(@Body() createUserDto:CreateUserDto){
+        return await this.authService.createUser(createUserDto);
+    }
+
+      @UseGuards(AuthGuard)
+      @Get('profile')
+      getProfile(@Request() req) {
+        const {username,iat,exp,...result}=req.user
+        return result;
+      }
 
   
-  @UseGuards(AuthGuard)
-  @Get('item')
-  findAll(){
-    return "Nice";
-  }
+      @UseGuards(AuthGuard)
+      @Get('item')
+      findAll(){
+        return "Nice Private access Authentication";
+      }
 
 }
