@@ -1,6 +1,6 @@
 import { Column } from "typeorm";
 import { Role } from "../role.enum";
-import { IsEmail,IsEnum,IsNotEmpty,Validate } from 'class-validator';
+import { IsEmail,IsEnum,IsNotEmpty } from 'class-validator';
 
 export class CreateUserDto{
 @Column()

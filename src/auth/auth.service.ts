@@ -42,7 +42,14 @@ export class AuthService {
     if(userCheck){
       throw new HttpException("User with this email already exist",HttpStatus.NOT_FOUND);
     }
-    const user = this.userRepository.create(createUserDto);
-    return await this.userRepository.save(user);
+    try{
+      const user = this.userRepository.create(createUserDto);
+      return await this.userRepository.save(user);
+    }
+    catch(error)
+    {
+      throw new HttpException(error?.message,HttpStatus.INTERNAL_SERVER_ERROR)
+    }
+  
   }
 }

@@ -7,6 +7,10 @@ import { UsersModule } from './users/users.module';
 import * as dotenv from 'dotenv';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserEntity } from './users/entities/user.entity';
+import { AssignmentModule } from './assignment/assignment.module';
+import { AssignmentEntity } from './assignment/entities/assignment.entity';
+import { EventsModule } from './events/events.module';
+import { EventEntity } from './events/entities/event.entity';
 dotenv.config();
 
 @Module({
@@ -15,10 +19,10 @@ dotenv.config();
     url: process.env.MONGODB_URI,
     synchronize:false,
     useUnifiedTopology:true,
-    entities:[UserEntity]
+    entities:[UserEntity,AssignmentEntity,EventEntity]
   }),
   AuthModule,  
-  UsersModule
+  UsersModule, AssignmentModule, EventsModule
   ],
   controllers: [AppController],
   providers: [AppService],
