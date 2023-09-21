@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -12,6 +12,18 @@ export class UsersService {
   constructor(@InjectRepository(UserEntity)private readonly userRepository: Repository<UserEntity>) {}
 
   async findAll():Promise<any[]>{
-    return this.userRepository.find();
+    try{
+      const users =await this.userRepository.find();
+      if(users.length >0)
+      {
+        return this.userRepository.find();
+      }
+      else{
+        return ["No Users"];
+      }
   }
+  catch(error){
+      throw new HttpException(error?.message,HttpStatus.INTERNAL_SERVER_ERROR)
+  }
+}
 }

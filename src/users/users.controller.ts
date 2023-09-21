@@ -13,8 +13,7 @@ export class UsersController {
     @Roles(Role.Admin)
     @Get('findAll')
     async findAll():Promise<any[]>{
-        return ["Admin access only"];
-        //return this.usersService.findAll();
+        return this.usersService.findAll();
     }
 
     @UseGuards(AuthGuard,RolesGuard)
