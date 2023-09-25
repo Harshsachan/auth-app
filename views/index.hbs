@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Curl Commands</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Add viewport meta tag for responsiveness -->
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #232f34;
+      color: #fff;
+      padding: 20px;
+      margin: 0; /* Remove default margin for full-width layout */
+    }
+    .container {
+      max-width: 800px; /* Adjust the max-width based on your design */
+      margin: 0 auto; /* Center the content horizontally */
+      padding: 20px;
+    }
+    .curl-command {
+      background-color: #000;
+      border: 1px solid #ccc;
+      padding: 10px;
+      margin-bottom: 20px;
+    }
+    .curl-response {
+      background-color: #f9f9f9;
+      border: 1px solid #ccc;
+      padding: 10px;
+      margin-bottom: 20px;
+      white-space: pre-wrap;
+    }
+    .post-request {
+      background-color: #000;
+      color: #fff;
+      padding: 10px;
+      margin-bottom: 20px;
+    }
+    .copy-button {
+      background-color: #a74caf;
+      color: white;
+      border: none;
+      padding: 8px 12px;
+      cursor: pointer;
+    }
+    @media screen and (max-width: 768px) {
+  /* Adjust styles for tablet screens */
+  .container {
+    padding: 10px;
+  }
+  .curl-command, .curl-response, .post-request {
+    padding: 10px;
+    margin-bottom: 20px;
+  }
+  /* Add the following style to wrap content within <pre> tags */
+  .curl-command pre, .curl-response pre, .post-request pre {
+    white-space: pre-wrap;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  /* Adjust styles for mobile screens */
+  .container {
+    padding: 5px;
+  }
+  .curl-command, .curl-response, .post-request {
+    padding: 5px;
+    margin-bottom: 10px;
+  }
+  /* Add the following style to wrap content within <pre> tags */
+  .curl-command pre, .curl-response pre, .post-request pre {
+    white-space: pre-wrap;
+  }
+}
+  </style>
+  <script>
+    const baseUrl = 'http://localhost:3000';
+    function copyCurlCommand(id) {
+      const commandElement = document.getElementById(id);
+      const textArea = document.createElement("textarea");
+      textArea.value = commandElement.textContent;
+      document.body.appendChild(textArea);
+      textArea.select();
+      document.execCommand("copy");
+      document.body.removeChild(textArea);
+      alert("Curl command copied to clipboard!");
+    }
+  </script>
+</head>
+<body>
+  <h1>Curl Commands</h1>
+  
+  <h5>Steps to use these </h5>
+  <h6>1- Generate a id token from (Get Token) Api</h6>
+  <h6>2- Copy that Bearer token and send it with your mail </h6>
+  <h6>3- There are 3 types of users </h6>
+  <pre> &nbsp; - Admin (Mail :- <i><b>admin@gmail.com</b></i> Password:- <b>Admin@123</b>) </pre>
+  <pre> &nbsp; - Teacher (Mail :- <i><b>teacher@gmail.com</b></i> Password:- <b>Teacher@123</b>) </pre>
+  <pre> &nbsp; - Student (Mail :- <i><b>student@gmail.com</b></i> Password:- <b>Student@123</b>) </pre>
+  <h6> Every role has differnt access associated to the api's i.e. - (Student is not allowed to post any assigenment but it can view the assignment)</h6>
+  <h6> Generate the token from any of the above example mail and Password to check it Authorization's</h6>
+  <h6> You can sign up through new mail id and Password and you may use that but the default role assigned will be student only admin can give roles like(Admin and Teacher) </h6>
+
+
+  <h3>1- Get Token API</h3>
+  <div class="curl-command">
+    <pre id="post-curl-command">
+      curl --location --request POST '${baseUrl}/auth/login?email=admin%40gmail.com&password=Admin%40123'
+    </pre>
+    <button class="copy-button" onclick="copyCurlCommand('post-curl-command')">Copy</button>
+  </div>
+
+  <h3>2- Get Profile API</h3>
+  <div class="curl-command">
+    <pre id="post2-curl-command">
+      curl --location 'http://localhost:3000/auth/profile' \
+      --header 'Authorization: Bearer your-access-token' \ </pre>
+    <button class="copy-button" onclick="copyCurlCommand('post2-curl-command')">Copy</button>
+  </div>
+
+
+</body>
+</html>
